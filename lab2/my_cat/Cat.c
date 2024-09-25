@@ -11,7 +11,7 @@ void cat(int argc, char** argv) {
         size_t len = 0;
         file = fopen(argv[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Ошибка при открытии файла\n");
+            fprintf(stderr, "Ошибка при открытии файла %s\n", argv[i]);
             return;   
         }   
         while (getline(&line, &len, file) != -1) {
@@ -29,7 +29,7 @@ void cat_E(int argc, char** argv) {
         size_t len = 0;
         file = fopen(argv[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Ошибка при открытии файла\n");
+            fprintf(stderr, "Ошибка при открытии файла %s\n", argv[i]);
             return;   
         }   
         while (getline(&line, &len, file) != -1) {
@@ -48,7 +48,7 @@ void cat_n(int argc, char** argv) {
         size_t len = 0;
         file = fopen(argv[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Ошибка при открытии файла\n");
+            fprintf(stderr, "Ошибка при открытии файла %s\n", argv[i]);
             return;   
         }   
         int num = 1;
@@ -68,7 +68,7 @@ void cat_b(int argc, char** argv) {
         size_t len = 0;
         file = fopen(argv[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Ошибка при открытии файла\n");
+            fprintf(stderr, "Ошибка при открытии файла %s\n", argv[i]);
             return;   
         }   
         int num = 1;
@@ -93,7 +93,7 @@ void cat_bE(int argc, char** argv) {
         size_t len = 0;
         file = fopen(argv[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Ошибка при открытии файла\n");
+            fprintf(stderr, "Ошибка при открытии файла %s\n", argv[i]);
             return;   
         }   
         int num = 1;
@@ -119,7 +119,7 @@ void cat_nE(int argc, char** argv) {
         size_t len = 0;
         file = fopen(argv[i], "r");
         if (file == NULL) {
-            fprintf(stderr, "Ошибка при открытии файла\n");
+            fprintf(stderr, "Ошибка при открытии файла %s\n", argv[i]);
             return;   
         }   
         int num = 1;
