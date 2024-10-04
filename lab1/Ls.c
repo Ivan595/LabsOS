@@ -127,7 +127,7 @@ void ls_l(int argc, char** argv) {
             }
             while ((entry = readdir(dir)) != NULL) {
                 if (entry->d_name[0] != '.') {
-                    File* file = create_file(entry->d_name, NULL);
+                    File* file = create_file(entry->d_name, argv[i]);
                     push_back(vector, file);
                 }  
             }
@@ -185,7 +185,7 @@ void ls_la(int argc, char** argv) {
                 printf("%s:\n", argv[i]);
             }
             while ((entry = readdir(dir)) != NULL) {
-                File* file = create_file(entry->d_name, NULL);
+                File* file = create_file(entry->d_name, argv[i]);
                 push_back(vector, file);
             }
             sort_vector(vector);

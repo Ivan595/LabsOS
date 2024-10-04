@@ -8,6 +8,7 @@
 #include <locale.h>
 #include <limits.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 #define RESET "\033[0m"
 #define BLUE "\033[34;1m"
@@ -213,7 +214,8 @@ char* display_groupname(File_type type, struct stat file_info, struct stat link_
 
 char* display_size(File_type type, struct stat file_info, struct stat link_info) {
     char* rv = (char*)calloc(50, sizeof(char));
-    if (type == BLOCK_DEVICE || type == CHARACTER_DEVICE) {
+    //this code works on my machine
+    /*if (type == BLOCK_DEVICE || type == CHARACTER_DEVICE) {
         sprintf(rv, "%d, %d", major(file_info.st_rdev), minor(file_info.st_rdev));
         return rv;
     }
@@ -226,7 +228,18 @@ char* display_size(File_type type, struct stat file_info, struct stat link_info)
             sprintf(rv, "%ld", file_info.st_size);
             return rv;
         }
+    }*/
+
+    if (type == SYMBOLIC_LINK) {
+        sprintf(rv, "%ld", link_info.st_size);
+        return rv;
     }
+    else {
+        sprintf(rv, "%ld", file_info.st_size);
+        return rv;
+    }
+
+
 }
 
 char* display_date(File_type type, struct stat file_info, struct stat link_info) {
@@ -234,16 +247,13 @@ char* display_date(File_type type, struct stat file_info, struct stat link_info)
     setlocale(LC_TIME, "ru_RU.UTF-8");
     if (type == SYMBOLIC_LINK) {
         struct tm* timeinfo = localtime(&link_info.st_mtime);
-        char buffer[DATE_MAX];
-        strftime(buffer, sizeof(buffer), "%b %d %H:%M", timeinfo);
-        sprintf(rv, "%s", buffer);
+        strftime(rv, sizeof(rv), "%b %d %H:%M", timeinfo);
     }
     else {
         struct tm* timeinfo = localtime(&file_info.st_mtime);
-        char buffer[DATE_MAX];
-        strftime(buffer, sizeof(buffer), "%b %d %H:%M", timeinfo);
-        sprintf(rv, "%s", buffer);
+        strftime(rv, sizeof(rv), "%b %d %H:%M", timeinfo);
     }
+    return rv;
 }
 
 void display_filename(File* file)
@@ -251,7 +261,7 @@ void display_filename(File* file)
     printf(" ");
     if (file->_type == SYMBOLIC_LINK) {
         char target_path[PATH_MAX];
-        ssize_t len = readlink(file->_name, target_path, sizeof(target_path) - 1);
+        ssize_t len = readlink(file->_path, target_path, sizeof(target_path) - 1);
         target_path[len] = '\0';
         File_type type = get_type(file->_file_info.st_mode, file->_file_info.st_mode);
         

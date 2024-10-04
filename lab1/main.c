@@ -30,6 +30,7 @@ char** filter_args(int argc, char** argv, int* new_argc) {
             }
         }
     }
+
     return filtered_argv;
 }
 
