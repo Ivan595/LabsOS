@@ -57,7 +57,7 @@ File* create_file(char* name, char* directory) {
             strcat(file->_path, name);
         }
     }   
-
+    
     stat(file->_path, &file->_file_info);
     lstat(file->_path, &file->_link_info);
 
