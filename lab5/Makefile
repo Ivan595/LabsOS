@@ -1,6 +1,6 @@
-all: my_archiver
-my_archiver: main.o Vector.o File.o Archiver.o
-	gcc main.o Vector.o File.o Archiver.o -o my_archiver
+all: archiver
+archiver: main.o Vector.o File.o Archiver.o
+	gcc main.o Vector.o File.o Archiver.o -o archiver
 main.o: main.c
 	gcc -c main.c
 Vector.o: Vector.c
@@ -10,4 +10,4 @@ File.o: File.c
 Archiver.o: Archiver.c
 	gcc -c Archiver.c
 clean:
-	rm -rf *.o my_archiver
+	rm -rf *.o archiver

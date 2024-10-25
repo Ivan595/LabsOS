@@ -50,24 +50,32 @@ int main(int argc, char** argv) {
     }
 
     if (h) {
+        if (argc != 2) {
+            printf("Неверные аргументы\n");
+            return 1;
+        }
         help();
     }
     if (i) {
-        if (argc != 3) {
+        if (argc != 4) {
             printf("Неверные аргументы\n");
             return 1;
         }
-        input(argv[2]);
+        input(argv[2], argv[3]);
     }
     if (s) {
-        archive_stat();
-    }
-    if (e) {
         if (argc != 3) {
             printf("Неверные аргументы\n");
             return 1;
         }
-        extract(argv[2]);
+        archive_stat(argv[2]);
+    }
+    if (e) {
+        if (argc != 4) {
+            printf("Неверные аргументы\n");
+            return 1;
+        }
+        extract(argv[2], argv[3]);
     }
 
 

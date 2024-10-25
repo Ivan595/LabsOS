@@ -10,8 +10,6 @@
 #include <stdbool.h>
 #include <time.h>
 #include <math.h>
-#define ARCHIVE_NAME "archive"
-#define MAX_FILENAME 255
 #define TEMP_ARCHIVE_NAME "temp"
 
 void help() {
@@ -64,9 +62,9 @@ int file_exists(int fd, char* name) {
     return 0;
 }
 
-int extract(char* name) {
+int extract(char* archive_name, char* name) {
     
-    int fd = open(ARCHIVE_NAME, O_RDONLY);
+    int fd = open(archive_name, O_RDONLY);
     if (fd == -1) {
         printf("Архива не существует\n");
         return 1;
@@ -144,18 +142,18 @@ int extract(char* name) {
     close(temp_fd);
     
     struct stat file_info;
-    stat(ARCHIVE_NAME, &file_info);
+    stat(archive_name, &file_info);
     chown(TEMP_ARCHIVE_NAME, file_info.st_uid, file_info.st_gid);
 
-    remove(ARCHIVE_NAME);
-    rename(TEMP_ARCHIVE_NAME, ARCHIVE_NAME);
+    remove(archive_name);
+    rename(TEMP_ARCHIVE_NAME, archive_name);
     
     return 0;
     
 }
 
-void archive_stat() {
-    int fd = open(ARCHIVE_NAME, O_RDONLY);
+void archive_stat(char* archive_name) {
+    int fd = open(archive_name, O_RDONLY);
     if (fd == -1) {
         printf("Архива не существует\n");
         return;
@@ -208,19 +206,21 @@ void archive_stat() {
     close(fd);
 }
 
-int input(char* file_name) {
-    int fd = open(ARCHIVE_NAME, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+int input(char* archive_name, char* file_name) {
+    
+    struct stat file_info;
+    if (stat(file_name, &file_info) != 0) {
+        printf("Нет такого файла\n");
+        return 1;
+    }
+      
+    int fd = open(archive_name, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     
     if (file_exists(fd, file_name)) {
         close(fd);
         return 0;
     }
     
-    struct stat file_info;
-    if (stat(file_name, &file_info) != 0) {
-        printf("Нет такого файла\n");
-        return 1;
-    }  
 
 
     //get data
