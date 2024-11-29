@@ -91,5 +91,6 @@ int main() {
 		void* res = NULL;
 		pthread_join(threads[i], &res);
 	}
-    
+
+	return 0;	    
 }
